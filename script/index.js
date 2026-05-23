@@ -1,34 +1,44 @@
-const loadData=()=>{
-    const chooseContainer=document.getElementById("card-container")
-    chooseContainer.innerHTML=""
-    const url=`https://openapi.programming-hero.com/api/plants`
-    fetch(url)
-    .then((res)=>res.json())
-    .then((data)=>{
-        console.log(data)
-    })
+const loadData = () => {
+  const url = `https://openapi.programming-hero.com/api/plants`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      displayInitialTree(data.plants);
+    });
+};
 
-            //     <div class="bg-white p-5 rounded-xl ">
-            //   <img src="./assets/about.png" alt="" />
-            //   <h2 class="text-[#18181B] font-semibold text-sm ">Mango Tree</h2>
-            //   <p class="text-[#1F2937] text-xs">
-            //     A fast-growing tropical tree that produces delicious, juicy
-            //     mangoes during summer. Its dense green
-            //   </p>
-            //   <div class="flex justify-between items-center">
-            //     <span class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D] font-medium"
-            //       >Fruit Tree</span
-            //     >
-            //     <span>৳500</span>
-            //   </div>
+const displayInitialTree = (datas) => {
+  const chooseContainer = document.getElementById("card-container");
+  chooseContainer.innerHTML = "";
+  if (datas.length > 0) {
+    datas.forEach((data) => {
+      chooseContainer.innerHTML += `
+            <div class="bg-white p-5 rounded-xl flex flex-col h-full ">
+              <img class="w-full h-48" src="${data.image}" alt="" />
+              <h2 class="text-[#18181B] font-semibold text-sm space-y-5">${data.name}</h2>
+              <p class="text-[#1F2937] text-xs flex-1">
+                ${data.description}
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="btn rounded-3xl bg-[#DCFCE7] text-[#15803D] font-medium my-2 "
+                  >${data.category}</span
+                >
+                <span>৳${data.price}</span>
+              </div>
 
-            //   <button class="btn bg-[#15803D] text-white rounded-4xl w-full mt-4">
-            //     Add to Cart
-            //   </button>
-            // </div>
-}
+              <button class="btn bg-[#15803D] text-white rounded-4xl w-full mt-auto">
+                Add to Cart
+              </button>
+            </div>
 
+        
+        `;
+    });
+  }
+  else{
+    chooseContainer.innerHTML += `<h2>No Data Found!!!</h2>`
 
+  }
+};
 
-
-loadData()
+loadData();
